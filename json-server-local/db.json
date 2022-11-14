@@ -1,0 +1,65 @@
+{
+  "beers": [
+    {
+      "id": 1,
+      "name": "Duvel",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2Fvilt.jpeg?alt=media&token=9d0bec60-b411-4b94-ad81-e91acf2caabc",
+      "description": "Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant, sweet taste of alcohol.",
+      "barcode": 0,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 2,
+      "name": "Chouffe",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 0,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 3,
+      "name": "Karmeliet",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2F33.jpg?alt=media&token=0684c7b7-d4ed-4256-afff-3a7eef8a88a7",
+      "description": "Tripel Karmeliet is still brewed to an authentic beer recipe from 1679 originating in the former Carmelite monastery in Dendermonde. Written over 300 years ago, this recipe describes the use of three kinds of grain: wheat, oats and barley.",
+      "barcode": 0,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    }
+  ],
+  "breweries": [
+    {
+      "id": 1,
+      "name": "Duvel Moortgat",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2F4b62a397-b874-4c41-8320-58fe8011d0b8.png?alt=media&token=d4269435-31cb-4a7c-8986-4b246dc9f797",
+      "description": "test"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Stef",
+      "dateOfBirth": "1997-04-03T22:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Thalissa",
+      "dateOfBirth": "1998-01-24T22:00:00.000Z"
+    }
+  ],
+  "consumptions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2021-10-30T22:00:00.000Z",
+      "count": 1
+    }
+  ]
+}
