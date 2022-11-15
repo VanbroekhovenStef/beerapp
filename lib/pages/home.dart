@@ -76,7 +76,7 @@ class _HomePageState extends State {
           });
           if (index == 0) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ArBeerPage()));
+                MaterialPageRoute(builder: (context) => const ScanPage()));
           } else if (index == 2) {
             Navigator.push(
                 context,

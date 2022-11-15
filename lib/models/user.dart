@@ -1,7 +1,7 @@
 class User {
   int id;
   String name;
-  DateTime dateOfBirth;
+  String dateOfBirth;
 
   User(
       {required this.id,

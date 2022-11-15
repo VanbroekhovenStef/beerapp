@@ -1,9 +1,12 @@
+import 'package:beerapp/models/datapoint.dart';
 import 'package:beerapp/pages/consumption_detail.dart';
+import 'package:beerapp/widgets/barchart.dart';
 import 'package:flutter/material.dart';
 import '../models/consumption.dart';
 import '../models/user.dart';
 import '../models/beer.dart';
 import '../apis/consumption_api.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class ConsumptionListPage extends StatefulWidget {
   const ConsumptionListPage({Key? key}) : super(key: key);
@@ -15,6 +18,8 @@ class ConsumptionListPage extends StatefulWidget {
 class _ConsumptionListPageState extends State {
   List<Consumption> consumptionList = [];
   int count = 0;
+  DataPoint datapoint = DataPoint(x: 1, y: 1);
+  List<DataPoint> datapoints = [];
 
   @override
   void initState() {
@@ -27,8 +32,20 @@ class _ConsumptionListPageState extends State {
       setState(() {
         consumptionList = result;
         count = result.length;
+        // datapoints = consumptionList;
       });
     });
+  }
+
+  convertToDatapoints(List<Consumption> consumptions) {
+    List<DataPoint> datapoints = [];
+    DataPoint datapoint = DataPoint(x: 0, y: 0);
+    consumptions.forEach((element) {
+      datapoint.x = DateTime.parse(element.createdAt).month;
+      datapoint.y += 1;
+      datapoints.add(datapoint);
+    });
+    return datapoints;
   }
 
   @override
@@ -38,9 +55,23 @@ class _ConsumptionListPageState extends State {
         title: const Text("Consumptions"),
       ),
       body: Container(
-        padding: const EdgeInsets.all(5.0),
-        child: _consumptionListItems(),
-      ),
+          padding: const EdgeInsets.all(5.0),
+          child: Column(children: <Widget>[
+            const Text("Progress",
+                style: TextStyle(
+                    fontSize: 20.0,
+                    decoration: TextDecoration.none,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold)),
+            BarChartWidget(consumptions: consumptionList),
+            const Text("Beers you drunk",
+                style: TextStyle(
+                    fontSize: 20.0,
+                    decoration: TextDecoration.none,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold)),
+            _consumptionListItems(),
+          ])),
     );
   }
 
@@ -74,7 +105,7 @@ class _ConsumptionListPageState extends State {
       context,
       MaterialPageRoute(builder: (context) => ConsumptionDetailPage(id: id)),
     );
-    
+
     _getConsumptions();
   }
 }

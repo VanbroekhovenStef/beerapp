@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../models/consumption.dart';
 
 class ConsumptionApi {
-  static String server = 'fine-dancers-shop-84-197-242-116.loca.lt';
+  static String server = 'tough-cows-feel-84-197-242-116.loca.lt';
   static final Map<String, String> _queryParameters = <String, String>{
     '_expand': 'beer'
   };

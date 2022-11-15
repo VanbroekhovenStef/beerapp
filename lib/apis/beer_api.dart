@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../models/beer.dart';
 
 class BeerApi {
-  static String server = 'fine-dancers-shop-84-197-242-116.loca.lt';
+  static String server = 'tough-cows-feel-84-197-242-116.loca.lt';
 
   static Future<List<Beer>> fetchBeers() async {
       var url = Uri.https(server, '/beers');

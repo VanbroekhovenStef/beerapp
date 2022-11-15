@@ -21,15 +21,18 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
       } else {
-        AlertDialog(
-          title: const Text('Wrong username'),
-          content: const Text('Try again'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Wrong username'),
+            content: const Text('Enter a valid username to continue'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
         );
       }
     });
@@ -71,8 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const HomePage()));
+                  _loginUser(usernameController.text);
                 },
                 child: const Text(
                   'Login',
