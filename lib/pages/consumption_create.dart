@@ -1,21 +1,27 @@
 import 'package:beerapp/apis/consumption_api.dart';
 import 'package:beerapp/models/consumption.dart';
-import 'package:beerapp/pages/consumption_create.dart';
+import 'package:beerapp/pages/home.dart';
+import 'package:beerapp/pages/variables.dart';
+import 'package:beerapp/widgets/profile.dart';
 import 'package:flutter/material.dart';
 import '../models/beer.dart';
 import '../apis/beer_api.dart';
 import 'package:givestarreviews/givestarreviews.dart';
 
 const List<String> choices = <String>[
-  'Save Beer & Back',
-  'Delete User',
+  'Save & Back',
+  'Delete',
   'Back'
 ];
 
 class CreateConsumptionPage extends StatefulWidget {
-  final int id;
+  final String beerId;
+  final String consumptionId;
+  final String beerName;
 
-  const CreateConsumptionPage({Key? key, required this.id}) : super(key: key);
+  CreateConsumptionPage(
+      {Key? key, this.beerId = "", this.consumptionId = "", this.beerName = ""})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CreateConsumptionPageState();
@@ -25,62 +31,107 @@ class _CreateConsumptionPageState extends State<CreateConsumptionPage> {
   Beer? beer;
   Consumption? consumption;
   int score = 0;
+  String menuText = "";
 
   TextEditingController remarkController = TextEditingController();
+  bool _isEnable = true;
 
   void _menuSelected(String index) async {
     switch (index) {
-      case "0": // Save User & Back
+      case "0": // Save beer & Back
         _saveConsumption();
         break;
       case "1": // Delete User
         _deleteConsumption();
         break;
       case "2": // Back to List
-        Navigator.pop(context, true);
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
+        );
         break;
       default:
     }
   }
 
   void _saveConsumption() {
+    var dateTime = DateTime.now().toString();
+    dateTime = dateTime.replaceAll(' ', 'T');
+    dateTime = "${dateTime}Z";
+
     consumption!.remark = remarkController.text;
     consumption!.score = score;
-    consumption!.beerId = beer!.id;
-    consumption!.userId = 1;
+    consumption!.beerId = beer!.id.toString();
+    consumption!.userId = userId;
     consumption!.count = 1;
-    consumption!.createdAt = DateTime.now().toString();
+    consumption!.createdAt = dateTime;
 
-    if (consumption!.id == 0) {
+    if (widget.consumptionId == "") {
       ConsumptionApi.createConsumption(consumption!).then((result) {
-        Navigator.pop(context, true);
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
+        );
+      });
+    } else {
+      debugPrint(consumption!.beer!.name);
+      ConsumptionApi.updateConsumption(widget.consumptionId, consumption!)
+          .then((result) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
+        );
       });
     }
-    // else {
-    //   UserApi.updateUser(widget.id, user!).then((result) {
-    //     Navigator.pop(context, true);
-    //   });
-    // }
   }
 
   void _deleteConsumption() {
-    ConsumptionApi.deleteConsumption(widget.id).then((result) {
-      Navigator.pop(context, true);
+    ConsumptionApi.deleteConsumption(widget.consumptionId).then((result) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _getBeer(widget.id);
+    if (widget.beerId != "") {
+      menuText = "Add new beer";
+      _getBeer(widget.beerName);
+    }
+    if (widget.consumptionId != "") {
+      _isEnable = false;
+      menuText = "View consumption";
+      _getConsumption(widget.consumptionId);
+    }
   }
 
-  void _getBeer(int id) {
-    BeerApi.fetchBeer(id).then((result) {
+  void _getBeer(String name) {
+    BeerApi.fetchBeer(name).then((result) {
       // call the api to fetch the user data
       setState(() {
         beer = result;
+        consumption = Consumption(
+            id: "",
+            beerId: widget.beerId.toString(),
+            userId: userId.toString(),
+            score: score,
+            count: 0,
+            createdAt: "",
+            remark: "");
       });
+    });
+  }
+
+  void _getConsumption(String id) {
+    ConsumptionApi.fetchConsumptionById(id).then((result) {
+      setState(() {
+        consumption = result;
+        beer = result.beer;
+      });
+      remarkController.text = result.remark;
     });
   }
 
@@ -88,7 +139,7 @@ class _CreateConsumptionPageState extends State<CreateConsumptionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add new beer"),
+          title: Text(menuText),
           actions: <Widget>[
             PopupMenuButton<String>(
               onSelected: _menuSelected,
@@ -104,62 +155,25 @@ class _CreateConsumptionPageState extends State<CreateConsumptionPage> {
           ],
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
           color: const Color.fromARGB(255, 158, 157, 149),
           padding: const EdgeInsets.all(5.0),
-          child: _addConsumption(),
-        ));
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: _addConsumption()) ),
+        );
   }
 
   _addConsumption() {
-    const double circleRadius = 100.0;
-    const double circleBorderWidth = 8.0;
-
     if (beer == null) {
       return const Center(child: CircularProgressIndicator());
     } else {
       TextStyle? textStyle = Theme.of(context).textTheme.bodyText1;
 
-      return Column(children: <Widget>[
-        Stack(alignment: Alignment.topCenter, children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: circleRadius / 2.0),
-            child: Container(
-                color: Colors.white,
-                height: 150.0,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: circleRadius / 2),
-                    Text(beer!.name,
-                        style: const TextStyle(
-                            fontSize: 40.0,
-                            decoration: TextDecoration.none,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold)),
-                    Text("${beer!.type}, ${beer!.alcoholPercentage}% alcohol",
-                        style: const TextStyle(
-                            fontSize: 20.0,
-                            decoration: TextDecoration.none,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal)),
-                  ],
-                )),
-          ),
-          Container(
-              width: circleRadius,
-              height: circleRadius,
-              decoration: const ShapeDecoration(
-                  shape: CircleBorder(), color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(circleBorderWidth),
-                child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(beer!.picture)))),
-              )),
-        ]),
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+        ProfileWidget(beer: beer!),
         const SizedBox(height: 15.0),
         const Text("What did you think of this beer?",
             textAlign: TextAlign.left,
@@ -168,17 +182,36 @@ class _CreateConsumptionPageState extends State<CreateConsumptionPage> {
                 decoration: TextDecoration.none,
                 color: Colors.black,
                 fontWeight: FontWeight.bold)),
-        TextField(
-          controller: remarkController,
-          style: textStyle,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            labelText: "Remarks",
-            labelStyle: textStyle,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
+        Container(
+          height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 300.0,
+              child: TextField(
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none),
+                  hintText: 'Remarks',
+                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                ),
+                controller: remarkController,
+                enabled: _isEnable,
+              ),
             ),
-          ),
+            IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  setState(() {
+                    _isEnable = !_isEnable;
+                  });
+                })
+          ],
         ),
         Container(
           height: 15,
@@ -190,7 +223,12 @@ class _CreateConsumptionPageState extends State<CreateConsumptionPage> {
                 decoration: TextDecoration.none,
                 color: Colors.black,
                 fontWeight: FontWeight.bold)),
-        StarRating(onChanged: (rate) {}),
+        StarRating(
+          onChanged: (rate) {
+            score = rate;
+          },
+          value: consumption!.score,
+        ),
       ]);
     }
   }

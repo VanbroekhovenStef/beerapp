@@ -45,34 +45,6 @@ var World = {
     },
 
     createOverlays: function createOverlaysFn() {
-        /*
-            To display a banner containing information about the current target as an augmentation an image
-            resource is created and passed to the AR.ImageDrawable. A drawable is a visual component that can be
-            connected to an IR target (AR.ImageResource) or a geolocated object (AR.GeoObject). The AR.ImageDrawable
-            is initialized by the image and its size. Optional parameters allow to position it relative to the
-            recognized target.
-        */
-        var weatherWidget = new AR.HtmlDrawable({
-            uri: "assets/weather.html"
-        }, 0.25, {
-            viewportWidth: 320,
-            viewportHeight: 100,
-            backgroundColor: "#FFFFFF",
-            translate: {
-                x: 0.36,
-                y: 0.5
-            },
-            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.RIGHT,
-            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
-            clickThroughEnabled: true,
-            allowDocumentLocationChanges: false,
-            onDocumentLocationChanged: function onDocumentLocationChangedFn(uri) {
-                AR.context.openInBrowser(uri);
-            },
-            onError: World.onError
-        });
-
-
         this.bannerImg = new AR.ImageResource("assets/bannerWithNameField.jpg", {
             onError: World.onError
         });
@@ -82,10 +54,6 @@ var World = {
             }
         });
 
-        /*
-            Additionally to the banner augmentation from the previous examples another drawable is created. This
-            drawable will be a button which the user can click to open the shop's website in the browser.
-        */
         this.orderNowButtonImg = new AR.ImageResource("assets/orderNowButton.png", {
             onError: World.onError
         });
@@ -96,12 +64,6 @@ var World = {
         });
     },
 
-    /*
-        The onRecognition callback function defines two parameters. The first parameter is a boolean value which
-        indicates if the server was able to detect the target, its value will be 0 or 1 depending on the outcome.
-        The second parameter a JSON Object will contain metadata about the recognized target, if no target was
-        recognized the JSON object will be empty.
-    */
     onRecognition: function onRecognitionFn(recognized, response) {
         if (recognized) {
             /* Clean Resources from previous recognitions. */
@@ -118,12 +80,6 @@ var World = {
                 "isAdd": false
             });
 
-            /*
-                To display the label of the recognized wine on top of the previously created banner, another
-                overlay is defined. From the response object returned from the server the 'targetInfo.name' property
-                is read to load the equally named image file. The zOrder property (defaults to 0) is set to 1 to
-                 make sure it will be positioned on top of the banner.
-            */
             World.beerLabel = new AR.ImageResource("assets/" + response.metadata.name + ".jpg", {
                 onError: World.onError
             });
@@ -135,15 +91,6 @@ var World = {
                 zOrder: 1
             });
 
-            /*
-                When the cloud archive was created custom metadata for every target was defined. You are a free to
-                choose the number of fields and there names depending on your needs. For this example
-                'metadata.name' which represents the real name of the wine and 'metadata.shop_url' a url to a
-                webshop stocking the particular wine were defined. To display the real name of the wine in the
-                banner overlay, an AR.Label is created. The first parameter defines the text of the label, the
-                second it's height in SDUs, the third parameter set's some optional options. To set the first
-                parameter of the AR.Label we read the before mentioned real name from the custom metadata object.
-            */
             World.beerName = new AR.Label(response.metadata.name, 0.06, {
                 translate: {
                     y: 0.72
@@ -164,7 +111,7 @@ var World = {
             }
 
             /*
-                Next a onClick handler is added to the orderNowButtonOverlay, making use of the AR.context class to
+                Next a onClick handler is added to the orderNowButt onOverlay, making use of the AR.context class to
                 open the shop's website in browser. Again the server response object is utilized to read the url
                 from the custom metadata of the current target.
             */

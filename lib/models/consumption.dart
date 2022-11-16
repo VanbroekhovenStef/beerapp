@@ -1,30 +1,27 @@
 import 'beer.dart';
-import 'user.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
 class Consumption {
-  int id;
-  int beerId;
-  int userId;
+  String id;
+  String beerId;
+  String userId;
   int score;
   int count;
   String createdAt;
   String remark;
-  Beer beer;
+  Beer? beer;
 
-  Consumption(
-      {required this.id,
-      required this.beerId,
-      required this.userId,
-      required this.score,
-      required this.count,
-      required this.createdAt,
-      required this.remark,
-      required this.beer,});
+  Consumption({
+    required this.id,
+    required this.beerId,
+    required this.userId,
+    required this.score,
+    required this.count,
+    required this.createdAt,
+    required this.remark,
+    this.beer,
+  });
 
-  factory Consumption.fromJson(Map<String, dynamic> json)
-  {
+  factory Consumption.fromJson(Map<String, dynamic> json) {
     return Consumption(
         id: json['id'],
         beerId: json['beerId'],
@@ -43,6 +40,6 @@ class Consumption {
         'count': count,
         'createdAt': createdAt,
         'remark': remark,
-        'beer': beer,
-  };
+        'beer': beer
+      };
 }

@@ -1,3 +1,4 @@
+import 'package:beerapp/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/armultipletargets.dart';
 
@@ -19,6 +20,7 @@ class _ArBeerPageState extends State<ArBeerPage> {
       body: const Center(
           // Here we load the Widget with the AR Dino experience
           child: ArMultipleTargetsWidget()),
+      bottomNavigationBar: const NavigationWidget(),
     );
   }
 }
