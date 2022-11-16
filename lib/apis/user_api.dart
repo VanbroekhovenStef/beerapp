@@ -3,31 +3,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserApi {
-  static String server = 'tough-cows-feel-84-197-242-116.loca.lt';
+  static String server = 'edge-service-vanbroekhovenstef.cloud.okteto.net';
 
-  static Future<List<User>> fetchUserByName(String username) async {
-      Map<String, String> queryParameters = <String, String> {
-        "name": username
-      };
-
-      var url = Uri.https(server, '/users', queryParameters);
-
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        List jsonResponse = json.decode(response.body);
-        return jsonResponse.map((user) => User.fromJson(user)).toList();
-      } else {
-        throw Exception('Failed to load users');
-      }
-  }
-
-  static Future<User> fetchUserById(int id) async {
-    var url = Uri.https(server, '/users/$id');
+  static Future<User> fetchUserByName(String username) async {
+    var url = Uri.https(server, '/users/$username');
 
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
+      if (response.contentLength == 0) {
+        return User(id: "0", firstName: "", name: "", dateOfBirth: "");
+      } else {
+        return User.fromJson(jsonDecode(response.body));
+      }
     } else {
       throw Exception('Failed to load user');
     }

@@ -5,9 +5,9 @@ import '../apis/beer_api.dart';
 import 'package:readmore/readmore.dart';
 
 class BeerDetailPage extends StatefulWidget {
-  final int id;
+  final String name;
 
-  const BeerDetailPage({Key? key, required this.id}) : super(key: key);
+  const BeerDetailPage({Key? key, required this.name}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BeerDetailPageState();
@@ -19,18 +19,16 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
   @override
   void initState() {
     super.initState();
-    _getBeer(widget.id);
+    _getBeer(widget.name);
   }
 
-  void _getBeer(int id) {
-    BeerApi.fetchBeer(id).then((result) {
-      // call the api to fetch the user data
+  void _getBeer(String name) {
+    BeerApi.fetchBeer(name).then((result) {
       setState(() {
         beer = result;
       });
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
         ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _navigateToNewConsumption(beer!.id);
+          _navigateToNewConsumption(beer!.id.toString(), beer!.name);
         },
         tooltip: "Add new Consumption",
         child: const Icon(Icons.add),
@@ -53,10 +51,10 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
     );
   }
 
-  _navigateToNewConsumption(int id) async {
+  _navigateToNewConsumption(String id, String name) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => CreateConsumptionPage(id: id)),
+      MaterialPageRoute(builder: (context) => CreateConsumptionPage(beerId: id, beerName: name)),
     );
   }
 
@@ -85,7 +83,7 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
                             decoration: TextDecoration.none,
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
-                    Text("${beer!.type}, ${beer!.alcoholPercentage}% alcohol",
+                    Text("${beer!.type}, ${beer!.alcoholpercentage}% alcohol",
                         style: const TextStyle(
                             fontSize: 20.0,
                             decoration: TextDecoration.none,
@@ -132,5 +130,4 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
     }
   }
   
-  // _beerDetailsBottom() {}
 }

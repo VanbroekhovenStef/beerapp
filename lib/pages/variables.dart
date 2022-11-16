@@ -1,1 +1,2 @@
-int userId = 0;
+String userId = "";
+int currentPageIndex = 1;

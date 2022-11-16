@@ -16,10 +16,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void _loginUser(String username) {
     UserApi.fetchUserByName(username).then((result) {
-      if (result.length == 1) {
-        userId = result[0].id;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+      if (result.id != "0") {
+        userId = result.id;
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) =>
+                    const HomePage()),
+                    (route) => false,
+          );
       } else {
         showDialog<String>(
           context: context,

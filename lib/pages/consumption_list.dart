@@ -1,12 +1,11 @@
 import 'package:beerapp/models/datapoint.dart';
-import 'package:beerapp/pages/consumption_detail.dart';
+import 'package:beerapp/pages/consumption_create.dart';
+import 'package:beerapp/pages/variables.dart';
 import 'package:beerapp/widgets/barchart.dart';
+import 'package:beerapp/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import '../models/consumption.dart';
-import '../models/user.dart';
-import '../models/beer.dart';
 import '../apis/consumption_api.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class ConsumptionListPage extends StatefulWidget {
   const ConsumptionListPage({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class ConsumptionListPage extends StatefulWidget {
 class _ConsumptionListPageState extends State {
   List<Consumption> consumptionList = [];
   int count = 0;
-  DataPoint datapoint = DataPoint(x: 1, y: 1);
+  DataPoint? datapoint;
   List<DataPoint> datapoints = [];
 
   @override
@@ -28,24 +27,12 @@ class _ConsumptionListPageState extends State {
   }
 
   void _getConsumptions() {
-    ConsumptionApi.fetchConsumptions().then((result) {
+    ConsumptionApi.fetchConsumptionsByUser(userId).then((result) {
       setState(() {
         consumptionList = result;
         count = result.length;
-        // datapoints = consumptionList;
       });
     });
-  }
-
-  convertToDatapoints(List<Consumption> consumptions) {
-    List<DataPoint> datapoints = [];
-    DataPoint datapoint = DataPoint(x: 0, y: 0);
-    consumptions.forEach((element) {
-      datapoint.x = DateTime.parse(element.createdAt).month;
-      datapoint.y += 1;
-      datapoints.add(datapoint);
-    });
-    return datapoints;
   }
 
   @override
@@ -55,23 +42,33 @@ class _ConsumptionListPageState extends State {
         title: const Text("Consumptions"),
       ),
       body: Container(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(children: <Widget>[
-            const Text("Progress",
-                style: TextStyle(
-                    fontSize: 20.0,
-                    decoration: TextDecoration.none,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold)),
-            BarChartWidget(consumptions: consumptionList),
-            const Text("Beers you drunk",
-                style: TextStyle(
-                    fontSize: 20.0,
-                    decoration: TextDecoration.none,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold)),
-            _consumptionListItems(),
-          ])),
+        padding: const EdgeInsets.all(5.0),
+        child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(children: <Widget>[
+              const Text("Progress",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      decoration: TextDecoration.none,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold)),
+              Container(
+                height: 30,
+              ),
+              BarChartWidget(consumptions: consumptionList),
+              const Text("Beers you drunk",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      decoration: TextDecoration.none,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold)),
+              Container(
+                height: 15,
+              ),
+              _consumptionListItems(),
+            ])),
+      ),
+      bottomNavigationBar: const NavigationWidget(),
     );
   }
 
@@ -88,10 +85,10 @@ class _ConsumptionListPageState extends State {
               leading: CircleAvatar(
                   backgroundColor: Colors.red,
                   child: Text(
-                      consumptionList[position].beer.name.substring(0, 1))),
-              title: Text(consumptionList[position].beer.name),
+                      consumptionList[position].beer!.name.substring(0, 1))),
+              title: Text(consumptionList[position].beer!.name),
               subtitle: Text(
-                  "${consumptionList[position].beer.type}, ${consumptionList[position].beer.alcoholPercentage}% alcohol"),
+                  consumptionList[position].createdAt.substring(0, 10)),
               onTap: () {
                 _navigateToDetail(consumptionList[position].id);
               },
@@ -100,10 +97,11 @@ class _ConsumptionListPageState extends State {
     );
   }
 
-  _navigateToDetail(int id) async {
+  _navigateToDetail(String id) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ConsumptionDetailPage(id: id)),
+      MaterialPageRoute(
+          builder: (context) => CreateConsumptionPage(consumptionId: id)),
     );
 
     _getConsumptions();

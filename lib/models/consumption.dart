@@ -1,18 +1,14 @@
-import 'package:beerapp/models/datapoint.dart';
-
 import 'beer.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
 class Consumption {
-  int id;
-  int beerId;
-  int userId;
+  String id;
+  String beerId;
+  String userId;
   int score;
   int count;
   String createdAt;
   String remark;
-  Beer beer;
+  Beer? beer;
 
   Consumption({
     required this.id,
@@ -22,7 +18,7 @@ class Consumption {
     required this.count,
     required this.createdAt,
     required this.remark,
-    required this.beer,
+    this.beer,
   });
 
   factory Consumption.fromJson(Map<String, dynamic> json) {
@@ -44,6 +40,6 @@ class Consumption {
         'count': count,
         'createdAt': createdAt,
         'remark': remark,
-        'beer': beer,
+        'beer': beer
       };
 }

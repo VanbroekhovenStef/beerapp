@@ -28,7 +28,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           gridData: FlGridData(show: false),
           titlesData: FlTitlesData(
             bottomTitles: AxisTitles(sideTitles: _bottomTitles),
-            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
             topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
@@ -41,11 +41,11 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     List<DataPoint> datapoints = [];
     DataPoint datapoint = DataPoint(x: 0, y: 0);
     consumptions.forEach((element) {
-      datapoint.x = DateTime.parse(element.createdAt).month;
-      datapoint.y = 1;
-      datapoints.add(datapoint);
+      int x = DateTime.parse(element.createdAt).month;
+      double y = 1;
+      datapoints.add(DataPoint(x: x, y: y));
     });
-    datapoints.sort((a, b) => a.x.compareTo(b.y));
+    datapoints.sort((a, b) => a.x.compareTo(b.x));
 
     var counter = 0;
     List<DataPoint> groupedPoints = [];
@@ -58,18 +58,10 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         number += 1;
         counter += 1;
       }
-      datapoint.x = monthInd;
-      datapoint.y = number;
-      groupedPoints.add(datapoint);
+      int x = monthInd;
+      double y = number;
+      groupedPoints.add(DataPoint(x: x, y: y));
     }
-
-    DataPoint datapoint1 = DataPoint(x: 1, y: 4);
-    DataPoint datapoint2 = DataPoint(x: 2, y: 5);
-    DataPoint datapoint3 = DataPoint(x: 3, y: 10);
-    groupedPoints.add(datapoint1);
-    groupedPoints.add(datapoint2);
-    groupedPoints.add(datapoint3);
-
 
     return groupedPoints;
   }

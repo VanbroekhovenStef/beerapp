@@ -1,11 +1,8 @@
-import 'package:beerapp/pages/arbeer.dart';
-import 'package:beerapp/pages/consumption_list.dart';
+import 'package:beerapp/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import '../models/beer.dart';
 import '../apis/beer_api.dart';
 import 'beer_detail.dart';
-import 'beer_list.dart';
-import 'scan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State {
-  int currentPageIndex = 1;
   List<Beer> beerList = [];
   int count = 0;
 
@@ -27,6 +23,15 @@ class _HomePageState extends State {
 
   void _getBeers() {
     BeerApi.fetchBeers().then((result) {
+      setState(() {
+        beerList = result;
+        count = result.length;
+      });
+    });
+  }
+
+  void _getFilteredBeers(String search) {
+    BeerApi.searchBeerByName(search).then((result) {
       setState(() {
         beerList = result;
         count = result.length;
@@ -46,62 +51,29 @@ class _HomePageState extends State {
         color: const Color.fromARGB(255, 158, 157, 149),
         child: Column(children: <Widget>[
           TextField(
-              cursorColor: Colors.grey,
-              decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none),
-                  hintText: 'Search beers or breweries',
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
-                  prefixIcon: Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Icon(Icons.search),
-                    width: 18,
-                  ))),
-          const Divider(height: 50.0, color: Colors.white),
-          const Text(
-            "Progress",
-            textAlign: TextAlign.center,
+            cursorColor: Colors.grey,
+            decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none),
+                hintText: 'Search beers or breweries',
+                hintStyle: const TextStyle(color: Colors.grey, fontSize: 18),
+                prefixIcon: Container(
+                  padding: const EdgeInsets.all(15),
+                  child: Icon(Icons.search),
+                  width: 18,
+                )),
+            onSubmitted: (value) {
+              _getFilteredBeers(value);
+            },
           ),
-          const SizedBox(height: 15),
+          const Divider(height: 50.0, color: Colors.white),
           _beerListItems(),
         ]),
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-          if (index == 0) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ScanPage()));
-          } else if (index == 2) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ConsumptionListPage()));
-          }
-          debugPrint(index.toString());
-        },
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.add_a_photo),
-            label: 'Scan',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.search),
-            label: 'Discover',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const NavigationWidget()
     );
   }
 
@@ -121,9 +93,9 @@ class _HomePageState extends State {
             ),
             title: Text(beerList[position].name),
             subtitle: Text(
-                "${beerList[position].type} bier, ${beerList[position].alcoholPercentage}% alcohol"),
+                "${beerList[position].type} bier, ${beerList[position].alcoholpercentage}% alcohol"),
             onTap: () {
-              _navigateToDetail(beerList[position].id);
+              _navigateToDetail(beerList[position].name);
             },
           ),
         );
@@ -131,10 +103,10 @@ class _HomePageState extends State {
     );
   }
 
-  void _navigateToDetail(int id) async {
+  void _navigateToDetail(String name) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BeerDetailPage(id: id)),
+      MaterialPageRoute(builder: (context) => BeerDetailPage(name: name)),
     );
 
     _getBeers();

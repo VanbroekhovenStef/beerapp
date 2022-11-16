@@ -5,9 +5,9 @@ class Beer {
   String picture;
   String description;
   String type;
-  double alcoholPercentage;
-  int breweryId;
-  int barcode;
+  double alcoholpercentage;
+  // int breweryId;
+  String barcode;
 
   Beer({
     required this.id,
@@ -15,8 +15,8 @@ class Beer {
     required this.picture,
     required this.description,
     required this.type,
-    required this.alcoholPercentage,
-    required this.breweryId,
+    required this.alcoholpercentage,
+    // required this.breweryId,
     required this.barcode,
   });
 
@@ -27,8 +27,8 @@ class Beer {
       picture: json['picture'],
       description: json['description'],
       type: json['type'],
-      alcoholPercentage: json['alcoholPercentage'],
-      breweryId: json['breweryId'],
+      alcoholpercentage: json['alcoholpercentage'],
+      // breweryId: json['breweryId'],
       barcode: json['barcode'],
     );
   }
@@ -38,8 +38,8 @@ class Beer {
         'picture': picture,
         'description': description,
         'type': type,
-        'alcoholPercentage': alcoholPercentage,
-        'breweryId': breweryId,
+        'alcoholpercentage': alcoholpercentage,
+        // 'breweryId': breweryId,
         'barcode': barcode,
       };
 }

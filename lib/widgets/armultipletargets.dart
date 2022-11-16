@@ -1,9 +1,11 @@
 import 'package:augmented_reality_plugin_wikitude/architect_widget.dart';
 import 'package:augmented_reality_plugin_wikitude/startupConfiguration.dart';
 import 'package:beerapp/apis/beer_api.dart';
+import 'package:beerapp/apis/consumption_api.dart';
 import 'package:beerapp/models/beer_scanned.dart';
 import 'package:beerapp/pages/consumption_create.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class ArMultipleTargetsWidget extends StatefulWidget {
   final bool isVisible;
@@ -24,15 +26,12 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
       cameraPosition: CameraPosition.BACK,
       cameraResolution: CameraResolution.AUTO);
   List<String> features = ["image_tracking"];
-  bool _isVisible = true;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-
-    updateVisibility();
 
     architectWidget = ArchitectWidget(
       onArchitectWidgetCreated: onArchitectWidgetCreated,
@@ -42,35 +41,49 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
     );
   }
 
-  void updateVisibility() {
-    _isVisible = widget.isVisible;
-  }
-
   void onJSONObjectReceived(Map<String, dynamic> jsonObject) async {
     var imageScanned = ARBeerResponse.fromJson(jsonObject);
-    //get question and navigate to question/answer page
-    BeerApi.fetchBeer(imageScanned.beerId).then((result) {
-      if (imageScanned.isAdd) {
-        showToast();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateConsumptionPage(id: result.id)),
-        );
-      } else {
-        architectWidget.callJavascript("World.updateScore(${result.barcode.toString()})");
-      }
-    });
+    if (imageScanned.beerName == "All beers") {
+      BeerApi.fetchBeers().then((result) {
+        String edited = jsonEncode(result);
+        debugPrint(edited);
+        debugPrint("test");
+        architectWidget.callJavascript("World.updateBeers($edited)");
+      });
+    } else {
+      BeerApi.fetchBeer(imageScanned.beerName).then((result) {
+        if (imageScanned.isAdd) {
+          debugPrint(imageScanned.isAdd.toString());
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => CreateConsumptionPage(
+                    beerId: result.id.toString(), beerName: result.name)),
+            (route) => false,
+          );
+        } else {
+          ConsumptionApi.fetchConsumptionsByBeer(imageScanned.beerName)
+              .then((result) {
+            var sum = 0;
+            for (int i = 0; i < result.length; i++) {
+              sum += result[i].score;
+            }
+            double average = sum / result.length;
+            average = double.parse((average).toStringAsFixed(2));
+            architectWidget.callJavascript(
+                "World.updateScore(${average.toString()})");
+          });
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-        visible: _isVisible,
         child: Container(
-          decoration: const BoxDecoration(color: Colors.black),
-          child: architectWidget, //ar widget
-        ));
+      decoration: const BoxDecoration(color: Colors.black),
+      child: architectWidget, //ar widget
+    ));
   }
 
   @override
@@ -82,7 +95,6 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
       case AppLifecycleState.resumed:
         architectWidget.resume();
         break;
-
       default:
     }
   }
@@ -110,11 +122,5 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
   Future<void> onLoadFailed(String error) async {
     debugPrint("Failed to load Architect World");
     debugPrint(error);
-  }
-
-  void showToast() {
-    setState(() {
-      _isVisible = !_isVisible;
-    });
   }
 }

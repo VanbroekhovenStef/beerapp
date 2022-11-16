@@ -1,6 +1,6 @@
 import 'package:beerapp/pages/arbeer.dart';
-
-import 'ardino.dart';
+import 'package:beerapp/widgets/armultipletargets.dart';
+import 'package:beerapp/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:augmented_reality_plugin_wikitude/wikitude_plugin.dart';
 import 'package:augmented_reality_plugin_wikitude/wikitude_response.dart';
@@ -21,26 +21,21 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         title: const Text("Scan label of beer"),
       ),
-      body: Center(
-        child: ElevatedButton(
-            onPressed: navigateToBeers, child: const Text("Scan beer")),
+      body: const Center(
+        child: ArMultipleTargetsWidget()
       ),
+      bottomNavigationBar: const NavigationWidget(),
     );
   }
 
-  void navigateToBeers() {
-    debugPrint("Beer scan opent");
-
+  navigateToBeers() {
     checkDeviceCompatibility().then((value) => {
           if (value.success)
             {
               requestARPermissions().then((value) => {
                     if (value.success)
                       {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ArBeerPage()),
-                        )
+                        
                       }
                     else
                       {
@@ -53,6 +48,7 @@ class _ScanPageState extends State<ScanPage> {
             {debugPrint("Device incompatible"), debugPrint(value.message)}
         });
   }
+
 
   Future<WikitudeResponse> checkDeviceCompatibility() async {
     return await WikitudePlugin.isDeviceSupporting(features);

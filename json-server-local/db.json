@@ -5,17 +5,17 @@
       "name": "Duvel",
       "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2Fvilt.jpeg?alt=media&token=9d0bec60-b411-4b94-ad81-e91acf2caabc",
       "description": "Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant, sweet taste of alcohol.",
-      "barcode": 0,
+      "barcode": 4,
       "alcoholPercentage": 8.1,
       "type": "Blond",
       "breweryId": 1
     },
     {
       "id": 2,
-      "name": "Chouffe",
+      "name": "LaChouffe",
       "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
-      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
-      "barcode": 0,
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling.",
+      "barcode": 3,
       "alcoholPercentage": 8.1,
       "type": "Blond",
       "breweryId": 1
@@ -25,7 +25,67 @@
       "name": "Karmeliet",
       "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2F33.jpg?alt=media&token=0684c7b7-d4ed-4256-afff-3a7eef8a88a7",
       "description": "Tripel Karmeliet is still brewed to an authentic beer recipe from 1679 originating in the former Carmelite monastery in Dendermonde. Written over 300 years ago, this recipe describes the use of three kinds of grain: wheat, oats and barley.",
-      "barcode": 0,
+      "barcode": 3,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 4,
+      "name": "Kasteelbier Tripel",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 4,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 5,
+      "name": "Brugge Tripel",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 5,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 6,
+      "name": "Kasteelbier Rouge",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 4,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 7,
+      "name": "Maredsous Tripel",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 3,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 8,
+      "name": "Steenbrugge Tripel",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 4,
+      "alcoholPercentage": 8.1,
+      "type": "Blond",
+      "breweryId": 1
+    },
+    {
+      "id": 9,
+      "name": "Barbar",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2FLa-Chouffe.jpg?alt=media&token=a769567c-463d-442b-909f-338d7a143538",
+      "description": "The gnomes of Fairyland are particularly fond of this golden beer. LA CHOUFFE, with its slight hoppy taste, combining notes of fresh coriander and fruity tones, is the drink which gives them their zest for life. At least, that's what these imps say when they are thirsty. Their secret used to be jealously guarded from one generation to the next until the day they shared the recipe with humans to seal their friendship. Of all the legends from the wonderful region of the Belgian Ardennes, the tale of LA CHOUFFE is the one which most merits re-telling. ",
+      "barcode": 4,
       "alcoholPercentage": 8.1,
       "type": "Blond",
       "breweryId": 1
@@ -53,15 +113,6 @@
   ],
   "consumptions": [
     {
-      "id": 1,
-      "userId": 1,
-      "beerId": 3,
-      "score": 4,
-      "remark": "Lekker biertje",
-      "createdAt": "2022-08-20 20:18:04Z",
-      "count": 1
-    },
-    {
       "id": 2,
       "userId": 1,
       "beerId": 3,
@@ -78,6 +129,78 @@
       "remark": "Lekker biertje",
       "createdAt": "2022-06-20 20:18:04Z",
       "count": 1
+    },
+    {
+      "beerId": 3,
+      "userId": 1,
+      "score": 2,
+      "count": 1,
+      "createdAt": "2022-08-15 18:28:57.349215",
+      "remark": "Lekker biertje",
+      "id": 7
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2022-06-20 20:18:04Z",
+      "count": 1
+    },
+    {
+      "id": 9,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2022-06-20 20:18:04Z",
+      "count": 1
+    },
+    {
+      "id": 10,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2022-06-20 20:18:04Z",
+      "count": 1
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2022-06-20 20:18:04Z",
+      "count": 1
+    },
+    {
+      "id": 12,
+      "userId": 1,
+      "beerId": 3,
+      "score": 4,
+      "remark": "Lekker biertje",
+      "createdAt": "2022-06-20 20:18:04Z",
+      "count": 1
+    },
+    {
+      "beerId": 1,
+      "userId": 1,
+      "score": 4,
+      "count": 1,
+      "createdAt": "2022-11-16 11:50:48.677808",
+      "remark": "",
+      "beer": {
+        "name": "Duvel",
+        "picture": "https://firebasestorage.googleapis.com/v0/b/jobsite-efef5.appspot.com/o/bierlogos%2Fvilt.jpeg?alt=media&token=9d0bec60-b411-4b94-ad81-e91acf2caabc",
+        "description": "Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant, sweet taste of alcohol.",
+        "type": "Blond",
+        "alcoholPercentage": 8.1,
+        "breweryId": 1,
+        "barcode": 0
+      },
+      "id": 13
     }
   ]
 }
