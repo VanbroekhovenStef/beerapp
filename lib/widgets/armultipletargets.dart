@@ -43,6 +43,8 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
 
   void onJSONObjectReceived(Map<String, dynamic> jsonObject) async {
     var imageScanned = ARBeerResponse.fromJson(jsonObject);
+    // This function returns a list of all beers that are known to save in the wikitude .js file.
+    // The intention was to show the average score from a beer immediately on recognition. Due to some bugs we were not able to achieve the desired result.
     if (imageScanned.beerName == "All beers") {
       BeerApi.fetchBeers().then((result) {
         String edited = jsonEncode(result);
@@ -52,6 +54,7 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
       });
     } else {
       BeerApi.fetchBeer(imageScanned.beerName).then((result) {
+        // boolean is added in response to indicate if the request is from the add-button. If it is the case, then navigate to the create page.
         if (imageScanned.isAdd) {
           debugPrint(imageScanned.isAdd.toString());
           Navigator.of(context).pushAndRemoveUntil(
@@ -61,6 +64,7 @@ class _ArMultipleTargetsWidgetState extends State<ArMultipleTargetsWidget>
             (route) => false,
           );
         } else {
+          // isAdd is false, so return data on average score to wikitude.
           ConsumptionApi.fetchConsumptionsByBeer(imageScanned.beerName)
               .then((result) {
             var sum = 0;

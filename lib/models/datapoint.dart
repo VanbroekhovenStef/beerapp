@@ -1,3 +1,4 @@
+// Class used for building the barchart
 class DataPoint {
   int x;
   double y;

@@ -5,6 +5,7 @@ import 'dart:convert';
 class UserApi {
   static String server = 'edge-service-vanbroekhovenstef.cloud.okteto.net';
 
+  // Get user for login functionality. If no user is found, return an empty user object with ID 0
   static Future<User> fetchUserByName(String username) async {
     var url = Uri.https(server, '/users/$username');
 

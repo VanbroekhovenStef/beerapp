@@ -26,10 +26,11 @@ class _ConsumptionListPageState extends State {
     _getConsumptions();
   }
 
+  // Get all consumptions from the user and reverse list so it is from newest to oldest.
   void _getConsumptions() {
     ConsumptionApi.fetchConsumptionsByUser(userId).then((result) {
       setState(() {
-        consumptionList = result;
+        consumptionList = result.reversed.toList();
         count = result.length;
       });
     });
@@ -55,6 +56,7 @@ class _ConsumptionListPageState extends State {
               Container(
                 height: 30,
               ),
+              // Loading custom BarChartWidget that displays info on amount of beers consumed per month
               BarChartWidget(consumptions: consumptionList),
               const Text("Beers you drunk",
                   style: TextStyle(
@@ -87,8 +89,8 @@ class _ConsumptionListPageState extends State {
                   child: Text(
                       consumptionList[position].beer!.name.substring(0, 1))),
               title: Text(consumptionList[position].beer!.name),
-              subtitle: Text(
-                  consumptionList[position].createdAt.substring(0, 10)),
+              subtitle:
+                  Text(consumptionList[position].createdAt.substring(0, 10)),
               onTap: () {
                 _navigateToDetail(consumptionList[position].id);
               },

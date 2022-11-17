@@ -1,3 +1,4 @@
+// Class used for response from wikitude application
 class ARBeerResponse {
   String beerName;
   bool isAdd;

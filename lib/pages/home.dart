@@ -15,6 +15,7 @@ class _HomePageState extends State {
   List<Beer> beerList = [];
   int count = 0;
 
+  // Load all beers to the page
   @override
   void initState() {
     super.initState();
@@ -30,6 +31,7 @@ class _HomePageState extends State {
     });
   }
 
+  // Calling api that fetches beers with value that was put in searchbar. Update state with new list of beers.
   void _getFilteredBeers(String search) {
     BeerApi.searchBeerByName(search).then((result) {
       setState(() {
@@ -47,9 +49,12 @@ class _HomePageState extends State {
       ),
       body: Container(
         padding: const EdgeInsets.all(15.0),
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
+        height: MediaQuery.of(context).size.height,
         color: const Color.fromARGB(255, 158, 157, 149),
-        child: Column(children: <Widget>[
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(children: <Widget>[
           TextField(
             cursorColor: Colors.grey,
             decoration: InputDecoration(
@@ -72,7 +77,9 @@ class _HomePageState extends State {
           const Divider(height: 50.0, color: Colors.white),
           _beerListItems(),
         ]),
+        )  
       ),
+      // Custom navigation bar
       bottomNavigationBar: const NavigationWidget()
     );
   }

@@ -1,4 +1,3 @@
-
 class Beer {
   int id;
   String name;
@@ -6,7 +5,6 @@ class Beer {
   String description;
   String type;
   double alcoholpercentage;
-  // int breweryId;
   String barcode;
 
   Beer({
@@ -16,7 +14,6 @@ class Beer {
     required this.description,
     required this.type,
     required this.alcoholpercentage,
-    // required this.breweryId,
     required this.barcode,
   });
 
@@ -28,7 +25,6 @@ class Beer {
       description: json['description'],
       type: json['type'],
       alcoholpercentage: json['alcoholpercentage'],
-      // breweryId: json['breweryId'],
       barcode: json['barcode'],
     );
   }
@@ -39,7 +35,6 @@ class Beer {
         'description': description,
         'type': type,
         'alcoholpercentage': alcoholpercentage,
-        // 'breweryId': breweryId,
         'barcode': barcode,
       };
 }

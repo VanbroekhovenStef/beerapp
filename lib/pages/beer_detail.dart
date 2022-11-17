@@ -1,4 +1,5 @@
 import 'package:beerapp/pages/consumption_create.dart';
+import 'package:beerapp/widgets/profile.dart';
 import 'package:flutter/material.dart';
 import '../models/beer.dart';
 import '../apis/beer_api.dart';
@@ -16,12 +17,14 @@ class BeerDetailPage extends StatefulWidget {
 class _BeerDetailPageState extends State<BeerDetailPage> {
   Beer? beer;
 
+  // Load beer information to the page
   @override
   void initState() {
     super.initState();
     _getBeer(widget.name);
   }
 
+  // Call to BeerAPI to fetch the beer and set state
   void _getBeer(String name) {
     BeerApi.fetchBeer(name).then((result) {
       setState(() {
@@ -30,12 +33,14 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Beer details"),
         ),
+        //Button to navigate to consumption_create page
         floatingActionButton: FloatingActionButton(
         onPressed: () {
           _navigateToNewConsumption(beer!.id.toString(), beer!.name);
@@ -46,7 +51,30 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
         body: Container(
           color: const Color.fromARGB(255, 158, 157, 149),
           padding: const EdgeInsets.all(5.0),
-          child: _beerProfile(),
+          child: Column(
+            children: <Widget>[
+              // Profile layout for the beer
+              ProfileWidget(beer: beer!),
+              const Text(
+                "Description",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  decoration: TextDecoration.none,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold)),
+              // Description of the beer in ReadMoreText widget so it can be maximized and minimized if needed
+              ReadMoreText(
+                  beer!.description,
+                  trimLines: 2,
+                  colorClickableText: Colors.pink,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: 'Show more',
+                  trimExpandedText: 'Show less',
+                  moreStyle:
+                      const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              )
+          ]),
         )
     );
   }
@@ -56,78 +84,5 @@ class _BeerDetailPageState extends State<BeerDetailPage> {
       context,
       MaterialPageRoute(builder: (context) => CreateConsumptionPage(beerId: id, beerName: name)),
     );
-  }
-
-  _beerProfile() {
-    const double circleRadius = 100.0;
-    const double circleBorderWidth = 8.0;
-
-    if (beer == null) {
-      return const Center(child: CircularProgressIndicator());
-    } else {
-      return Column(
-        children: <Widget>[
-        Stack(alignment: Alignment.topCenter, children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: circleRadius / 2.0),
-            child: Container(
-                color: Colors.white,
-                height: 150.0,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: circleRadius / 2),
-                    Text(beer!.name,
-                        style: const TextStyle(
-                            fontSize: 40.0,
-                            decoration: TextDecoration.none,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold)),
-                    Text("${beer!.type}, ${beer!.alcoholpercentage}% alcohol",
-                        style: const TextStyle(
-                            fontSize: 20.0,
-                            decoration: TextDecoration.none,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal)),
-                  ],
-                )),
-          ),
-          Container(
-              width: circleRadius,
-              height: circleRadius,
-              decoration: const ShapeDecoration(
-                  shape: CircleBorder(), color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(circleBorderWidth),
-                child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(beer!.picture)))),
-              )),
-        ]),
-        const SizedBox(height: 15.0),
-        const Text(
-          "Description",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 20.0,
-            decoration: TextDecoration.none,
-            color: Colors.black,
-            fontWeight: FontWeight.bold)),
-        ReadMoreText(
-            beer!.description,
-            trimLines: 2,
-            colorClickableText: Colors.pink,
-            trimMode: TrimMode.Line,
-            trimCollapsedText: 'Show more',
-            trimExpandedText: 'Show less',
-            moreStyle:
-                const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        )
-      ]);
-    }
-  }
-  
+  }  
 }
