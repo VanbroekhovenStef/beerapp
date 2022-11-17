@@ -37,6 +37,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     );
   }
 
+  // This functions converts the list of consumptions to datapoints grouped per month
   convertToDatapoints(List<Consumption> consumptions) {
     List<DataPoint> datapoints = [];
     DataPoint datapoint = DataPoint(x: 0, y: 0);
@@ -66,6 +67,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
     return groupedPoints;
   }
 
+  // Fill the barchart with datapoints
   List<BarChartGroupData> _chartGroups() {
     debugPrint(widget.consumptions.toString());
     debugPrint(widget.consumptions.length.toString());
@@ -78,6 +80,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
         .toList();
   }
 
+  // Convert x-values to months in text format.
   SideTitles get _bottomTitles => SideTitles(
         showTitles: true,
         getTitlesWidget: (value, meta) {

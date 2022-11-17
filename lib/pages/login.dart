@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
 
+  // Function that saves user info upon correct input and navigates to homepage. Alert is given when input is incorrect
   void _loginUser(String username) {
     UserApi.fetchUserByName(username).then((result) {
       if (result.id != "0") {

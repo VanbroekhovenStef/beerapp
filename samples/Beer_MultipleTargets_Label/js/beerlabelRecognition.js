@@ -76,11 +76,6 @@ var World = {
 
                 this.addImageTargetCamDrawables(target, this.beerLabelOverlay);
 
-                // Below function locates the correct beer in the list based on the target name. 
-                //It is not used because of parsin errors
-                
-                // World.search(target.name, World.beerList);
-
                 this.averageScore = new AR.Label(World.score + "/5 average", 0.06, {
                     translate: {
                         y: 0.60
@@ -104,14 +99,14 @@ var World = {
         World.score = score;
     },
 
+    // Attempt to receive json list with beer objects. Due to unknown reasons the data is unreadable in this file, while the correct data is stringified in the flutter application.
     updateBeers: function updateBeersFn(beers) {
         World.beerList = beers;
-        console.log("arrived");
         console.log(beers);
     },
 
+    // Search function that would be used if list of beers could be interpreted.
     search: function searchFn(nameKey, beers) {
-        console.log("arrived");
         var beerJSON = JSON.parse(beers);
         for (var i=0; i < beerJSON.length; i++) {
             if (beers[i].name === nameKey) {

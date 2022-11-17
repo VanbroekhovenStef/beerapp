@@ -17,6 +17,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   static const double circleRadius = 100.0;
   static const double circleBorderWidth = 8.0;
 
+  // Profile widget for layout of the beer detail pages.
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topCenter, children: <Widget>[

@@ -1,4 +1,3 @@
-import 'package:beerapp/pages/arbeer.dart';
 import 'package:beerapp/widgets/armultipletargets.dart';
 import 'package:beerapp/widgets/navigation.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ class ScanPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ScanPageState();
 }
 
+// This page loads the AR widget and does checks on device compatibility
 class _ScanPageState extends State<ScanPage> {
   List<String> features = ["image_tracking"];
 
@@ -28,29 +28,7 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  navigateToBeers() {
-    checkDeviceCompatibility().then((value) => {
-          if (value.success)
-            {
-              requestARPermissions().then((value) => {
-                    if (value.success)
-                      {
-                        
-                      }
-                    else
-                      {
-                        debugPrint("AR permissions denied"),
-                        debugPrint(value.message)
-                      }
-                  })
-            }
-          else
-            {debugPrint("Device incompatible"), debugPrint(value.message)}
-        });
-  }
-
-
-  Future<WikitudeResponse> checkDeviceCompatibility() async {
+ Future<WikitudeResponse> checkDeviceCompatibility() async {
     return await WikitudePlugin.isDeviceSupporting(features);
   }
 

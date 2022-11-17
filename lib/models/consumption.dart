@@ -1,3 +1,4 @@
+// Class consumption including a beer object that can be read
 import 'beer.dart';
 
 class Consumption {
